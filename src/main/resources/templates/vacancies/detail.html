@@ -60,16 +60,22 @@
     <h6 class="fw-bold">Applications (<span th:text="${applications.size()}">0</span>)</h6>
     <table class="table table-sm table-hover">
       <thead class="table-light">
-        <tr><th>Candidate</th><th>Date</th><th>Status</th></tr>
+        <tr><th>Candidate</th><th>Date</th><th>Status</th><th>Actions</th></tr>
       </thead>
       <tbody>
         <tr th:each="a : ${applications}">
           <td th:text="${a.candidateFirstName() + ' ' + a.candidateLastName()}"></td>
           <td th:text="${a.applicationDate()}"></td>
           <td><span class="badge bg-info text-dark" th:text="${a.status()}"></span></td>
+          <td class="d-flex gap-1 flex-wrap">
+            <a th:href="@{/applications/{id}(id=${a.id()})}" class="btn btn-sm btn-outline-secondary">View Application</a>
+            <a sec:authorize="hasAnyRole('ADMIN','RECRUITER')"
+               th:href="@{/interviews/application/{id}/new(id=${a.id()})}"
+               class="btn btn-sm btn-outline-warning">Schedule Interview</a>
+          </td>
         </tr>
         <tr th:if="${applications.empty}">
-          <td colspan="3" class="text-muted text-center">No applications yet.</td>
+          <td colspan="4" class="text-muted text-center">No applications yet.</td>
         </tr>
       </tbody>
     </table>

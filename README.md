@@ -288,3 +288,7 @@ Nested fields are flattened via explicit `@Mapping` annotations, for example:
 VacancyResponse toResponse(Vacancy vacancy);
 ```
 ![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)

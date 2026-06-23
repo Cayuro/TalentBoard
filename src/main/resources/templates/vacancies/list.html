@@ -34,8 +34,7 @@
           <td><span class="badge bg-secondary" th:text="${v.workMode()}"></span></td>
           <td>
             <span class="badge"
-                  th:classappend="${v.status().name() == 'OPEN'} ? 'bg-success' :
-                                  (${v.status().name() == 'DRAFT'} ? 'bg-warning text-dark' : 'bg-danger')"
+                  th:classappend="${v.status().name() == 'OPEN' ? 'bg-success' : (v.status().name() == 'DRAFT' ? 'bg-warning text-dark' : 'bg-danger')}"
                   th:text="${v.status()}"></span>
           </td>
           <td th:text="${v.recruiterFirstName() + ' ' + v.recruiterLastName()}"></td>

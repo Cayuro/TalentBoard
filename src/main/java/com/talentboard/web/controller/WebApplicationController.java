@@ -3,6 +3,9 @@ package com.talentboard.web.controller;
 import com.talentboard.application.dto.ApplicationRequest;
 import com.talentboard.application.service.ApplicationService;
 import com.talentboard.common.exception.BusinessRuleException;
+import com.talentboard.interview.entity.InterviewResult;
+import com.talentboard.interview.entity.InterviewType;
+import com.talentboard.interview.service.InterviewService;
 import com.talentboard.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,6 +22,7 @@ public class WebApplicationController {
 
     private final ApplicationService applicationService;
     private final UserService userService;
+    private final InterviewService interviewService;
 
     @GetMapping
     public String list(Model model, @AuthenticationPrincipal UserDetails user) {
@@ -32,6 +36,9 @@ public class WebApplicationController {
                          @AuthenticationPrincipal UserDetails user) {
         model.addAttribute("currentUser", userService.findByEmail(user.getUsername()));
         model.addAttribute("application", applicationService.findById(id, user.getUsername()));
+        model.addAttribute("interviews", interviewService.findByApplication(id));
+        model.addAttribute("interviewTypes", InterviewType.values());
+        model.addAttribute("interviewResults", InterviewResult.values());
         return "applications/detail";
     }
 

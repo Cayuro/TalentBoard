@@ -1,7 +1,6 @@
 package com.talentboard.web.controller;
 
 import com.talentboard.application.service.ApplicationService;
-import com.talentboard.common.exception.BusinessRuleException;
 import com.talentboard.user.service.UserService;
 import com.talentboard.vacancy.dto.VacancyRequest;
 import com.talentboard.vacancy.entity.VacancyStatus;

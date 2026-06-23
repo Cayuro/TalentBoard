@@ -25,8 +25,7 @@
           <td th:text="${a.applicationDate()}"></td>
           <td>
             <span class="badge"
-                  th:classappend="${a.status().name() == 'HIRED'} ? 'bg-success' :
-                                  (${a.status().name() == 'REJECTED'} ? 'bg-danger' : 'bg-info text-dark')"
+                  th:classappend="${a.status().name() == 'HIRED' ? 'bg-success' : (a.status().name() == 'REJECTED' ? 'bg-danger' : 'bg-info text-dark')}"
                   th:text="${a.status()}"></span>
           </td>
           <td>
