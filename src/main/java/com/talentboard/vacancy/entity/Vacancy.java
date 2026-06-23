@@ -12,8 +12,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "vacancies")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter 
+@Setter
+@NoArgsConstructor 
+@AllArgsConstructor
 @Builder
 public class Vacancy {
 

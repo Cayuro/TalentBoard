@@ -1,0 +1,37 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: talentboard-db
+    environment:
+      POSTGRES_DB: talentboard
+      POSTGRES_USER: talentboard
+      POSTGRES_PASSWORD: talentboard
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U talentboard"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  talentboard-app:
+    build: .
+    container_name: talentboard-app
+    ports:
+      - "8081:8081"
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/talentboard
+      DB_USERNAME: talentboard
+      DB_PASSWORD: talentboard
+      JWT_SECRET: juanito-el-codificador-quiere-hacer-algo-chevere
+      JWT_EXPIRATION: 86400000
+      PORT: 8081
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

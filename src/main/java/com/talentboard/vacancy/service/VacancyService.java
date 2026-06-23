@@ -40,6 +40,12 @@ public class VacancyService {
                 .stream().map(vacancyMapper::toResponse).toList();
     }
 
+    public List<VacancyResponse> findByRecruiterEmail(String email) {
+        Long recruiterId = userService.findByEmail(email).id();
+        return vacancyRepository.findByRecruiterId(recruiterId)
+                .stream().map(vacancyMapper::toResponse).toList();
+    }
+
     public VacancyResponse findById(Long id) {
         return vacancyMapper.toResponse(getById(id));
     }
