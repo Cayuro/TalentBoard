@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TalentBoard - Vacancies</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold mb-0">Vacancies</h4>
+    <a sec:authorize="hasAnyRole('ADMIN','RECRUITER')"
+       th:href="@{/vacancies/new}" class="btn btn-warning fw-bold">+ New Vacancy</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th><th>Title</th><th>Category</th><th>Mode</th>
+          <th>Status</th><th>Recruiter</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="v : ${vacancies}">
+          <td th:text="${v.id()}"></td>
+          <td th:text="${v.title()}"></td>
+          <td th:text="${v.category()}"></td>
+          <td><span class="badge bg-secondary" th:text="${v.workMode()}"></span></td>
+          <td>
+            <span class="badge"
+                  th:classappend="${v.status().name() == 'OPEN'} ? 'bg-success' :
+                                  (${v.status().name() == 'DRAFT'} ? 'bg-warning text-dark' : 'bg-danger')"
+                  th:text="${v.status()}"></span>
+          </td>
+          <td th:text="${v.recruiterFirstName() + ' ' + v.recruiterLastName()}"></td>
+          <td>
+            <a th:href="@{/vacancies/{id}(id=${v.id()})}" class="btn btn-sm btn-outline-secondary">View</a>
+            <a sec:authorize="hasAnyRole('ADMIN','RECRUITER')"
+               th:href="@{/vacancies/{id}/edit(id=${v.id()})}" class="btn btn-sm btn-outline-warning">Edit</a>
+          </td>
+        </tr>
+        <tr th:if="${vacancies.empty}">
+          <td colspan="7" class="text-center text-muted">No vacancies found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
