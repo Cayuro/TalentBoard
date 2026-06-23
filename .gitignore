@@ -1,5 +1,6 @@
 ##properties
 /home/cohorte6/Desktop/talentboard/src/main/resources/application.properties
+src/main/resources/application.properties
 *.md
 
 HELP.md

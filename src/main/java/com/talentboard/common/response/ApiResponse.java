@@ -5,6 +5,7 @@ public record ApiResponse<T>(
         String message,
         T data
 ) {
+    //se habilida el uso de Genericos con la primera <T> 
     public static <T> ApiResponse<T> ok(T data) {
         return new ApiResponse<>(true, "Success", data);
     }
