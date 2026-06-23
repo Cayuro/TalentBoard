@@ -22,7 +22,10 @@
           <a class="nav-link" th:href="@{/applications}">My Applications</a>
         </li>
         <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','RECRUITER')">
-          <a class="nav-link" th:href="@{/interviews}">My Interviews</a>
+          <a class="nav-link" th:href="@{/applications}">Applications</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','RECRUITER')">
+          <a class="nav-link" th:href="@{/interviews}">Interviews</a>
         </li>
         <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','RECRUITER')">
           <a class="nav-link" th:href="@{/vacancies/new}">+ New Vacancy</a>

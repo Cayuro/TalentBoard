@@ -29,6 +29,10 @@ public class InterviewService {
     private final ApplicationRepository applicationRepository;
     private final UserService userService;
 
+    public List<InterviewResponse> findAll() {
+        return interviewRepository.findAll().stream().map(interviewMapper::toResponse).toList();
+    }
+
     public List<InterviewResponse> findByApplication(Long applicationId) {
         return interviewRepository.findByApplicationId(applicationId)
                 .stream().map(interviewMapper::toResponse).toList();

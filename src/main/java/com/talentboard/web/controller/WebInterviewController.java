@@ -6,6 +6,7 @@ import com.talentboard.interview.dto.InterviewRequest;
 import com.talentboard.interview.entity.InterviewResult;
 import com.talentboard.interview.entity.InterviewType;
 import com.talentboard.interview.service.InterviewService;
+import com.talentboard.user.entity.Role;
 import com.talentboard.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,8 +31,13 @@ public class WebInterviewController {
 
     @GetMapping
     public String list(Model model, @AuthenticationPrincipal UserDetails user) {
-        model.addAttribute("currentUser", userService.findByEmail(user.getUsername()));
-        model.addAttribute("interviews", interviewService.findByRecruiter(user.getUsername()));
+        var currentUser = userService.findByEmail(user.getUsername());
+        model.addAttribute("currentUser", currentUser);
+        if (currentUser.role() == Role.ADMIN) {
+            model.addAttribute("interviews", interviewService.findAll());
+        } else {
+            model.addAttribute("interviews", interviewService.findByRecruiter(user.getUsername()));
+        }
         return "interviews/list";
     }
 

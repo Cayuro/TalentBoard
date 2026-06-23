@@ -241,15 +241,42 @@ These users are automatically seeded on every application startup via `DataIniti
 
 ---
 
+## Web UI — Functional flows
+
+**Candidate**
+1. Register at `/auth/register` selecting role `CANDIDATE`.
+2. Browse all vacancies at `/vacancies`.
+3. Click **Apply Now** on any open vacancy detail page.
+4. Track all applications at `/applications` — each row shows status and date.
+5. Open an application detail to see interview schedule (date, time, type, result).
+
+**Recruiter**
+1. Log in at `/auth/login`.
+2. Create a vacancy at `/vacancies/new` — set title, description, category, work mode, salary range, and initial status.
+3. Edit or change status of own vacancies from the vacancy detail or list. Only the creating recruiter (or ADMIN) can edit.
+4. Open the **Applications** menu to see all applications for their vacancies; update status (UNDER_REVIEW, OFFERED, HIRED, REJECTED…) directly from the application detail.
+5. Schedule an interview from the application detail — choose date, time, and type.
+6. Register interview results at `/interviews/{id}`.
+7. See all assigned interviews with times and candidates at `/interviews`.
+8. Delete a vacancy only when its status is `CLOSED` or `CANCELLED`.
+
+**Admin**
+1. Full access to all resources — all vacancies, all applications, all interviews.
+2. Can delete any closed/cancelled vacancy.
+3. Manages users via the REST API (`/api/users`).
+
+---
+
 ## Business Rules
 
 | Rule | HTTP Response |
 |------|--------------|
 | Candidate applies twice to same vacancy | `409 Conflict` |
 | Application to a non-OPEN vacancy | `409 Conflict` |
-| Interview date in the past | `400 Bad Request` (validation) |
+| Interview date in the past | `400 Bad Request` |
 | Candidate accesses another candidate's data | `403 Forbidden` |
 | Recruiter modifies another recruiter's vacancy | `403 Forbidden` |
+| Deleting a vacancy that is not CLOSED or CANCELLED | `409 Conflict` |
 | Invalid credentials on login | `401 Unauthorized` |
 
 ---

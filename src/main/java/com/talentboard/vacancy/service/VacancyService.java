@@ -1,5 +1,6 @@
 package com.talentboard.vacancy.service;
 
+import com.talentboard.common.exception.BusinessRuleException;
 import com.talentboard.common.exception.ResourceNotFoundException;
 import com.talentboard.common.exception.UnauthorizedException;
 import com.talentboard.common.mapper.VacancyMapper;
@@ -75,10 +76,17 @@ public class VacancyService {
         return vacancyMapper.toResponse(vacancyRepository.save(vacancy));
     }
 
+    public void assertCanEdit(Long id, String requesterEmail) {
+        checkOwnership(getById(id), requesterEmail);
+    }
+
     @Transactional
     public void delete(Long id, String requesterEmail) {
         Vacancy vacancy = getById(id);
         checkOwnership(vacancy, requesterEmail);
+        if (vacancy.getStatus() != VacancyStatus.CLOSED && vacancy.getStatus() != VacancyStatus.CANCELLED) {
+            throw new BusinessRuleException("Only CLOSED or CANCELLED vacancies can be deleted");
+        }
         vacancyRepository.delete(vacancy);
     }
 

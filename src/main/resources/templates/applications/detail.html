@@ -110,6 +110,27 @@
         </div>
       </div>
 
+      <div class="mt-4" sec:authorize="hasAnyRole('ADMIN','RECRUITER')">
+        <h6 class="fw-bold">Update Application Status</h6>
+        <form th:action="@{/applications/{id}/status(id=${app.id()})}" method="post" class="d-flex gap-2 align-items-end flex-wrap">
+          <div>
+            <label class="form-label small fw-semibold mb-1">Status</label>
+            <select name="status" class="form-select form-select-sm" required>
+              <option th:each="s : ${applicationStatuses}"
+                      th:value="${s}"
+                      th:text="${s}"
+                      th:selected="${s == app.status()}"></option>
+            </select>
+          </div>
+          <div class="flex-grow-1">
+            <label class="form-label small fw-semibold mb-1">Notes (optional)</label>
+            <input type="text" name="notes" class="form-control form-control-sm"
+                   th:value="${app.notes()}" placeholder="Add a note...">
+          </div>
+          <button type="submit" class="btn btn-warning btn-sm fw-bold">Save Status</button>
+        </form>
+      </div>
+
       <div class="mt-4 d-flex gap-2">
         <a th:href="@{/vacancies/{id}(id=${app.vacancyId()})}" class="btn btn-warning fw-bold">View vacancy</a>
         <a th:href="@{/applications}" class="btn btn-outline-secondary">Back to list</a>

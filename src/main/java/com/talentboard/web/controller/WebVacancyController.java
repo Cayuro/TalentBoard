@@ -1,6 +1,8 @@
 package com.talentboard.web.controller;
 
 import com.talentboard.application.service.ApplicationService;
+import com.talentboard.common.exception.BusinessRuleException;
+import com.talentboard.common.exception.UnauthorizedException;
 import com.talentboard.user.service.UserService;
 import com.talentboard.vacancy.dto.VacancyRequest;
 import com.talentboard.vacancy.entity.VacancyStatus;
@@ -66,11 +68,26 @@ public class WebVacancyController {
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model,
                            @AuthenticationPrincipal UserDetails user) {
+        vacancyService.assertCanEdit(id, user.getUsername());
         model.addAttribute("currentUser", userService.findByEmail(user.getUsername()));
         model.addAttribute("vacancy", vacancyService.findById(id));
         model.addAttribute("workModes", WorkMode.values());
         model.addAttribute("statuses", VacancyStatus.values());
         return "vacancies/edit";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id,
+                         @AuthenticationPrincipal UserDetails user,
+                         RedirectAttributes redirectAttributes) {
+        try {
+            vacancyService.delete(id, user.getUsername());
+            redirectAttributes.addFlashAttribute("successMessage", "Vacancy deleted successfully");
+            return "redirect:/vacancies";
+        } catch (BusinessRuleException | UnauthorizedException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+            return "redirect:/vacancies/" + id;
+        }
     }
 
     @PostMapping("/{id}/edit")

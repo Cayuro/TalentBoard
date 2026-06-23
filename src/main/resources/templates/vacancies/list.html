@@ -38,10 +38,16 @@
                   th:text="${v.status()}"></span>
           </td>
           <td th:text="${v.recruiterFirstName() + ' ' + v.recruiterLastName()}"></td>
-          <td>
+          <td class="d-flex gap-1 flex-wrap">
             <a th:href="@{/vacancies/{id}(id=${v.id()})}" class="btn btn-sm btn-outline-secondary">View</a>
-            <a sec:authorize="hasAnyRole('ADMIN','RECRUITER')"
+            <a th:if="${#authorization.expression('hasRole(''ADMIN'')') or currentUser.id() == v.recruiterId()}"
                th:href="@{/vacancies/{id}/edit(id=${v.id()})}" class="btn btn-sm btn-outline-warning">Edit</a>
+            <form th:if="${(#authorization.expression('hasRole(''ADMIN'')') or currentUser.id() == v.recruiterId())
+                          and (v.status().name() == 'CLOSED' or v.status().name() == 'CANCELLED')}"
+                  th:action="@{/vacancies/{id}/delete(id=${v.id()})}" method="post" style="display:inline">
+              <button type="submit" class="btn btn-sm btn-outline-danger"
+                      onclick="return confirm('Delete this vacancy permanently?')">Delete</button>
+            </form>
           </td>
         </tr>
         <tr th:if="${vacancies.empty}">
