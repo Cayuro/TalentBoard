@@ -10,6 +10,8 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4">
+  <div th:replace="~{fragments/messages :: messages}"></div>
+
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="fw-bold mb-0">Vacancies</h4>
     <a sec:authorize="hasAnyRole('ADMIN','RECRUITER')"

@@ -10,6 +10,8 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4">
+  <div th:replace="~{fragments/messages :: messages}"></div>
+
   <div class="row mb-4">
     <div class="col">
       <h4 class="fw-bold">Welcome, <span th:text="${currentUser.firstName()}">User</span>!</h4>

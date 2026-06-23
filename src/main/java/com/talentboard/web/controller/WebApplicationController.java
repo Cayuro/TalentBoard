@@ -1,6 +1,8 @@
 package com.talentboard.web.controller;
 
+import com.talentboard.application.dto.ApplicationRequest;
 import com.talentboard.application.service.ApplicationService;
+import com.talentboard.common.exception.BusinessRuleException;
 import com.talentboard.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/applications")
@@ -30,5 +33,19 @@ public class WebApplicationController {
         model.addAttribute("currentUser", userService.findByEmail(user.getUsername()));
         model.addAttribute("application", applicationService.findById(id, user.getUsername()));
         return "applications/detail";
+    }
+
+    @PostMapping
+    public String apply(@ModelAttribute ApplicationRequest request,
+                        @AuthenticationPrincipal UserDetails user,
+                        RedirectAttributes redirectAttributes) {
+        try {
+            applicationService.apply(request, user.getUsername());
+            redirectAttributes.addFlashAttribute("successMessage", "Application submitted successfully");
+            return "redirect:/vacancies/" + request.vacancyId();
+        } catch (BusinessRuleException ex) {
+            redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+            return "redirect:/vacancies/" + request.vacancyId();
+        }
     }
 }

@@ -12,9 +12,7 @@
       <span class="text-warning">Talent</span>Board
     </h3>
 
-    <div th:if="${param.error}" class="alert alert-danger">Invalid email or password.</div>
-    <div th:if="${param.logout}" class="alert alert-info">You have been logged out.</div>
-    <div th:if="${param.registered}" class="alert alert-success">Account created! Please log in.</div>
+    <div th:replace="~{fragments/messages :: messages}"></div>
 
     <form th:action="@{/auth/login}" method="post">
       <div class="mb-3">

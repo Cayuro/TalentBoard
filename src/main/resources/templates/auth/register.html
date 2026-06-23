@@ -12,7 +12,7 @@
       <span class="text-warning">Talent</span>Board — Register
     </h3>
 
-    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div th:replace="~{fragments/messages :: messages}"></div>
 
     <form th:action="@{/auth/register}" method="post">
       <div class="row g-3">

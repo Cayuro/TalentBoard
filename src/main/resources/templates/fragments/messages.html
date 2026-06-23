@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="messages" class="mb-4">
+  <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+    <strong>Something went wrong.</strong>
+    <span class="ms-1" th:text="${errorMessage}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
+  <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+    <strong>Done.</strong>
+    <span class="ms-1" th:text="${successMessage}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
+  <div th:if="${error}" class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+    <strong>Something went wrong.</strong>
+    <span class="ms-1" th:text="${error}"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
+  <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+    <strong>Authentication failed.</strong>
+    <span class="ms-1">Invalid email or password.</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
+  <div th:if="${param.logout}" class="alert alert-info alert-dismissible fade show shadow-sm" role="alert">
+    <strong>Session closed.</strong>
+    <span class="ms-1">You have been logged out.</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
+  <div th:if="${param.registered}" class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+    <strong>Account created.</strong>
+    <span class="ms-1">Please log in with your new credentials.</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+</div>
+</body>
+</html>

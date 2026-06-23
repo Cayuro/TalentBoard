@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/vacancies")
@@ -54,6 +55,7 @@ public class WebVacancyController {
                          BindingResult result, Model model,
                          @AuthenticationPrincipal UserDetails user) {
         if (result.hasErrors()) {
+            model.addAttribute("errorMessage", "Please review the highlighted vacancy fields.");
             model.addAttribute("workModes", WorkMode.values());
             model.addAttribute("statuses", VacancyStatus.values());
             return "vacancies/form";
@@ -70,5 +72,24 @@ public class WebVacancyController {
         model.addAttribute("workModes", WorkMode.values());
         model.addAttribute("statuses", VacancyStatus.values());
         return "vacancies/edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String update(@PathVariable Long id,
+                         @Valid @ModelAttribute VacancyRequest vacancyRequest,
+                         BindingResult result,
+                         Model model,
+                         @AuthenticationPrincipal UserDetails user,
+                         RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("errorMessage", "Please review the highlighted vacancy fields.");
+            model.addAttribute("vacancy", vacancyService.findById(id));
+            model.addAttribute("workModes", WorkMode.values());
+            model.addAttribute("statuses", VacancyStatus.values());
+            return "vacancies/edit";
+        }
+        vacancyService.update(id, vacancyRequest, user.getUsername());
+        redirectAttributes.addFlashAttribute("successMessage", "Vacancy updated successfully");
+        return "redirect:/vacancies/" + id;
     }
 }

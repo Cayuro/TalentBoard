@@ -35,6 +35,7 @@ public class WebAuthController {
     public String register(@Valid @ModelAttribute UserRegistrationRequest request,
                            BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("error", "Please check the form fields and try again.");
             model.addAttribute("roles", Role.values());
             return "auth/register";
         }
