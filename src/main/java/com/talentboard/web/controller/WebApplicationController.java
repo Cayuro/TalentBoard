@@ -35,7 +35,7 @@ public class WebApplicationController {
     public String detail(@PathVariable Long id, Model model,
                          @AuthenticationPrincipal UserDetails user) {
         model.addAttribute("currentUser", userService.findByEmail(user.getUsername()));
-        model.addAttribute("application", applicationService.findById(id, user.getUsername()));
+        model.addAttribute("app", applicationService.findById(id, user.getUsername()));
         model.addAttribute("interviews", interviewService.findByApplication(id));
         model.addAttribute("interviewTypes", InterviewType.values());
         model.addAttribute("interviewResults", InterviewResult.values());

@@ -28,11 +28,18 @@ public class WebInterviewController {
     private final ApplicationService applicationService;
     private final UserService userService;
 
+    @GetMapping
+    public String list(Model model, @AuthenticationPrincipal UserDetails user) {
+        model.addAttribute("currentUser", userService.findByEmail(user.getUsername()));
+        model.addAttribute("interviews", interviewService.findByRecruiter(user.getUsername()));
+        return "interviews/list";
+    }
+
     @GetMapping("/application/{applicationId}/new")
     public String scheduleForm(@PathVariable Long applicationId, Model model,
                                @AuthenticationPrincipal UserDetails user) {
         model.addAttribute("currentUser", userService.findByEmail(user.getUsername()));
-        model.addAttribute("application", applicationService.findById(applicationId, user.getUsername()));
+        model.addAttribute("app", applicationService.findById(applicationId, user.getUsername()));
         model.addAttribute("interviewTypes", InterviewType.values());
         return "interviews/schedule";
     }

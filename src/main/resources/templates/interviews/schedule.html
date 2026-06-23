@@ -10,22 +10,22 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4" style="max-width: 700px;">
-  <a th:href="@{/applications/{id}(id=${application.id()})}" class="btn btn-sm btn-outline-secondary mb-3">&larr; Back to application</a>
+  <a th:href="@{/applications/{id}(id=${app.id()})}" class="btn btn-sm btn-outline-secondary mb-3">&larr; Back to application</a>
 
   <div th:replace="~{fragments/messages :: messages}"></div>
 
   <div class="card shadow-sm border-0">
     <div class="card-header bg-dark text-white">
       <div class="text-uppercase small opacity-75">Schedule Interview</div>
-      <h5 class="mb-0 fw-bold" th:text="${application.vacancyTitle()}">Vacancy title</h5>
+      <h5 class="mb-0 fw-bold" th:text="${app.vacancyTitle()}">Vacancy title</h5>
       <div class="small mt-1 opacity-75">
-        Candidate: <span th:text="${application.candidateFirstName() + ' ' + application.candidateLastName()}"></span>
+        Candidate: <span th:text="${app.candidateFirstName() + ' ' + app.candidateLastName()}"></span>
       </div>
     </div>
 
     <div class="card-body">
-      <form th:action="@{/interviews/application/{id}(id=${application.id()})}" method="post">
-        <input type="hidden" name="applicationId" th:value="${application.id()}">
+      <form th:action="@{/interviews/application/{id}(id=${app.id()})}" method="post">
+        <input type="hidden" name="applicationId" th:value="${app.id()}">
 
         <div class="mb-3">
           <label for="interviewDate" class="form-label fw-semibold">Interview Date</label>
@@ -56,7 +56,7 @@
 
         <div class="d-flex gap-2">
           <button type="submit" class="btn btn-warning fw-bold">Schedule Interview</button>
-          <a th:href="@{/applications/{id}(id=${application.id()})}" class="btn btn-outline-secondary">Cancel</a>
+          <a th:href="@{/applications/{id}(id=${app.id()})}" class="btn btn-outline-secondary">Cancel</a>
         </div>
       </form>
     </div>
